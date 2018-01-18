@@ -1,0 +1,47 @@
+{
+  "template" : "scaife-viewer",
+  "mappings": {
+    "text": {
+      "properties": {
+        "@timestamp": {
+          "type": "date"
+        },
+        "@version": {
+          "type": "keyword"
+        },
+        "urn": {
+          "type": "keyword"
+        },
+        "text_group": {
+          "type": "keyword"
+        },
+        "work": {
+          "type": "keyword"
+        },
+        "content": {
+          "type": "text",
+          "term_vector": "with_positions_offsets",
+          "store": true,
+          "analyzer": "fulltext_analyzer"
+        }
+      }
+    }
+  },
+  "settings": {
+    "index": {
+      "number_of_shards": 5,
+      "number_of_replicas": 0
+    },
+    "analysis": {
+      "analyzer": {
+        "fulltext_analyzer": {
+          "type": "custom",
+          "tokenizer": "icu_tokenizer",
+          "filter": [
+            "icu_folding"
+          ]
+        }
+      }
+    }
+  }
+}
