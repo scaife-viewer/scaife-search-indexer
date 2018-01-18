@@ -22,3 +22,39 @@ The naming above assumes the GCP project you are creating the resources under is
 The service account key created above is used as a deployment artifact. There are too many
 ways to enumerate how to get it to the running indexer. For now, this is left up as an
 excerise for the reader.
+
+## Indexing
+
+To index the corpus you will need the following up and running:
+
+* ElasticSearch
+* Logstash (provided by this repo)
+* Container image available for Scaife Viewer
+
+Indexing is an extremely CPU and memory intensive process. After many trial and error run throughs, the best and fastest way to process the corpus is using a very large VM machine type. The indexer in SV can scale to as many cores as you throw at it.
+
+### High-Level Overview
+
+The full index process is broken into a couple phases for large scale indexing:
+
+#### Phase One
+
+* provision VM for scaife-viewer `cloud-indexer`
+* import corpus repos to RAM disk (enabling `CTS_RESOLVER=local`)
+* kick off `cloud-indexer`
+  * all leaf URNs are calculated from available repos (e.g.
+    `urn:cts:greekLit:tlg0016.tlg001.perseus-grc2:1.1.1`)
+  * process all URNs across all available machine CPU cores generating
+    ElasticSearch documents
+  * push documents to Pub/Sub topic
+* tear down the VM once `cloud-indexer` has completed
+
+This phase can be configured to directly push to ElasticSearch. This works well for local development.
+
+#### Phase Two
+
+Logstash (provided in this repo) is configured to subscribe to the Pub/Sub topic. It pulls documents and indexes them in ElasticSearch.
+
+### Practical Example
+
+@@@
