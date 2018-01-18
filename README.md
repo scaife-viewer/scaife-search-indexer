@@ -14,7 +14,7 @@ Before running the search indexer you will need to create a IAM service account 
         --iam-account "search-indexer-${SCAIFE_INSTANCE}@${CLOUDSDK_CORE_PROJECT}.iam.gserviceaccount.com"
     gcloud projects add-iam-policy-binding "${CLOUDSDK_CORE_PROJECT}" \
         --member "serviceAccount:search-indexer-${SCAIFE_INSTANCE}@${CLOUDSDK_CORE_PROJECT}.iam.gserviceaccount.com" \
-        --role roles/pubsub.subscriber
+        --role roles/pubsub.editor
     gcloud pubsub topics create "search-indexer-${SCAIFE_INSTANCE}-documents"
 
 The naming above assumes the GCP project you are creating the resources under is specific to the Scaife Viewer. Please adjust them as you see fit.
@@ -57,4 +57,16 @@ Logstash (provided in this repo) is configured to subscribe to the Pub/Sub topic
 
 ### Practical Example
 
-@@@
+    gcloud beta compute instances create-with-container scaife-indexer \
+        --zone us-central1-c \
+        --machine-type n1-standard-96 \
+        --min-cpu-platform "Intel Skylake" \
+        --container-image gcr.io/scaife-viewer/scaife-viewer:445b0718ce604f34f5cfbfe07819883eee69d5bf \
+        --container-env "CTS_LOCAL_DATA_PATH=/var/lib/nautilus/data","CTS_API_ENDPOINT=https://perseus-cts-dev.eu1.eldarioncloud.com/api/cts","GCP_PROJECT=${CLOUDSDK_CORE_PROJECT}","SCAIFE_INSTANCE=dev" \
+        --container-command "bin/cloud-indexer" \
+        --container-mount-tmpfs mount-path=/var/lib/nautilus/data \
+        --container-restart-policy=on-failure
+    # view last ten logs from container
+    gcloud --format=json logging read "resource.type=global AND jsonPayload.container.name=/scaife-indexer AND logName=projects/${CLOUDSDK_CORE_PROJECT}/logs/gcplogs-docker-driver" --limit 10 | jq -r '.[].jsonPayload.data'
+    # once completed, delete the VM
+    gcloud compute instances delete scaife-indexer
