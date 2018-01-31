@@ -18,6 +18,22 @@
         "work": {
           "type": "keyword"
         },
+        "text": {
+          "properties": {
+            "urn": {
+              "type": "keyword"
+            },
+            "label": {
+              "type": "text"
+            },
+            "description": {
+              "type": "text"
+            }
+          }
+        },
+        "sort_idx": {
+          "type": "integer"
+        },
         "content": {
           "type": "text",
           "term_vector": "with_positions_offsets",
