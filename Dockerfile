@@ -1,4 +1,4 @@
-FROM docker.elastic.co/logstash/logstash-oss:6.0.0
+FROM docker.elastic.co/logstash/logstash-oss:6.1.3
 
 RUN logstash-plugin install logstash-input-google_pubsub
 USER root
