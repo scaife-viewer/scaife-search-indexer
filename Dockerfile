@@ -9,7 +9,7 @@ RUN apt-get update \
     && gem build logstash-input-google_pubsub.gemspec
 
 
-FROM docker.elastic.co/logstash/logstash-oss:6.1.3
+FROM docker.elastic.co/logstash/logstash-oss:6.2.0
 
 COPY --from=gem-build /usr/local/src/logstash-input-google_pubsub/logstash-input-google_pubsub-1.0.4.gem /tmp
 RUN logstash-plugin install /tmp/logstash-input-google_pubsub-1.0.4.gem
