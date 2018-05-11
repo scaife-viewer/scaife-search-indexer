@@ -61,12 +61,12 @@ Logstash (provided in this repo) is configured to subscribe to the Pub/Sub topic
         --zone us-central1-c \
         --machine-type n1-standard-96 \
         --min-cpu-platform "Intel Skylake" \
-        --container-image gcr.io/scaife-viewer/scaife-viewer:445b0718ce604f34f5cfbfe07819883eee69d5bf \
-        --container-env "CTS_LOCAL_DATA_PATH=/var/lib/nautilus/data","CTS_API_ENDPOINT=https://perseus-cts-dev.eu1.eldarioncloud.com/api/cts","GCP_PROJECT=${CLOUDSDK_CORE_PROJECT}","SCAIFE_INSTANCE=dev" \
+        --container-image gcr.io/scaife-viewer/scaife-viewer:ebfe836fa23ea66f17d64b9c82f65d90f00f65af \
+        --container-env "CTS_LOCAL_DATA_PATH=/var/lib/nautilus/data","CTS_API_ENDPOINT=https://scaife-cts-dev.eldarion.com/api/cts","GCP_PROJECT=${CLOUDSDK_CORE_PROJECT}","SCAIFE_INSTANCE=dev" \
         --container-command "bin/cloud-indexer" \
         --container-mount-tmpfs mount-path=/var/lib/nautilus/data \
         --container-restart-policy=on-failure
     # view last ten logs from container
-    gcloud --format=json logging read "resource.type=global AND jsonPayload.container.name=/scaife-indexer AND logName=projects/${CLOUDSDK_CORE_PROJECT}/logs/gcplogs-docker-driver" --limit 10 | jq -r '.[].jsonPayload.data'
+    gcloud --format=json logging read "resource.type=global AND jsonPayload.container.name=/scaife-indexer-step-indexer AND logName=projects/${CLOUDSDK_CORE_PROJECT}/logs/gcplogs-docker-driver" --limit 100 | jq -r '.[].jsonPayload.data' | tail -r
     # once completed, delete the VM
     gcloud compute instances delete scaife-indexer
