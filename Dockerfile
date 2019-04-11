@@ -5,7 +5,7 @@ RUN apt-get update \
     && mkdir -p /usr/local/src && cd /usr/local/src/ \
     && git clone https://github.com/SvenW/logstash-input-google_pubsub \
     && cd logstash-input-google_pubsub \
-    && git checkout f4b06da95069cd6caf8ae9ee0b6e23300649e9f6
+    && git checkout f4b06da95069cd6caf8ae9ee0b6e23300649e9f6 \
     && ./ci/build.sh \
     && gem build logstash-input-google_pubsub.gemspec
 
