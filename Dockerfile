@@ -9,10 +9,10 @@ RUN apt-get update \
     && gem build logstash-input-google_pubsub.gemspec
 
 
-FROM docker.elastic.co/logstash/logstash-oss:6.2.4
+FROM docker.elastic.co/logstash/logstash-oss:6.2.2
 
-COPY --from=gem-build /usr/local/src/logstash-input-google_pubsub/logstash-input-google_pubsub-1.1.0.gem /tmp
-RUN logstash-plugin install /tmp/logstash-input-google_pubsub-1.1.0.gem
+COPY --from=gem-build /usr/local/src/logstash-input-google_pubsub/logstash-input-google_pubsub-1.0.4.gem /tmp
+RUN logstash-plugin install /tmp/logstash-input-google_pubsub-1.0.4.gem
 USER root
 RUN mkdir -p /usr/share/scaife-viewer && chown logstash:logstash /usr/share/scaife-viewer
 USER logstash
