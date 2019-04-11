@@ -1,5 +1,5 @@
 {
-  "template" : "scaife-viewer",
+  "index_patterns" : ["scaife-viewer*"],
   "mappings": {
     "text": {
       "properties": {
