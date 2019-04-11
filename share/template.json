@@ -45,6 +45,12 @@
           "term_vector": "with_positions_offsets",
           "store": true,
           "analyzer": "fulltext_analyzer"
+        },
+        "raw_content": {
+          "type": "text",
+          "term_vector": "with_positions_offsets",
+          "store": true,
+          "analyzer": "fulltext_analyzer"
         }
       }
     }
