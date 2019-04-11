@@ -12,6 +12,12 @@
         "urn": {
           "type": "keyword"
         },
+        "language": {
+          "type": "keyword"
+        },
+        "word_count": {
+          "type": "integer"
+        },
         "text_group": {
           "type": "keyword"
         },
