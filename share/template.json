@@ -1,5 +1,5 @@
 {
-  "template" : "scaife-viewer",
+  "index_patterns" : ["scaife-viewer*"],
   "mappings": {
     "text": {
       "properties": {
@@ -11,6 +11,12 @@
         },
         "urn": {
           "type": "keyword"
+        },
+        "language": {
+          "type": "keyword"
+        },
+        "word_count": {
+          "type": "integer"
         },
         "text_group": {
           "type": "keyword"
@@ -41,6 +47,12 @@
           "analyzer": "fulltext_analyzer"
         },
         "content": {
+          "type": "text",
+          "term_vector": "with_positions_offsets",
+          "store": true,
+          "analyzer": "fulltext_analyzer"
+        },
+        "raw_content": {
           "type": "text",
           "term_vector": "with_positions_offsets",
           "store": true,
