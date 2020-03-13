@@ -1,5 +1,7 @@
 # Scaife Viewer Search Indexer
 
+search indexer infrastructure for Scaife Viewer
+
 This repository contains the container image definition and configuration for the search indexer. Logstash is used to pull ElasticSearch documents from Google Pub/Sub and upsert them in the search indices.
 
 This repository is part of the [Scaife Viewer](https://scaife-viewer.org) project, an open-source ecosystem for building rich online reading environments.
